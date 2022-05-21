@@ -63,7 +63,7 @@ int rthumb(XINPUT_STATE state){
     float distance = sqrt(rx*rx + ry*ry); //find the distance of it (a^2 + b^2 = c^2)//
     float deadzone = 10000; //set your deadzone//
     float rxdir =  rx /distance; //check x's direction//
-    float rydir = ry /distance; //check y'x direction/
+    float rydir = ry /distance; //check y's direction/
     float rs =0;
     char xdirect[100];
     char ydirect[100];
