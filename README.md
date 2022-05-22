@@ -23,3 +23,7 @@ Controller input
 This program can get the input of controller. Main header: (xinput.h)
 <a href="https://github.com/jm7meme/Simple-C-program/tree/main/controller%20input"> Go there  </a>
 
+Controlling pc with controller
+==================================
+This is a cool program, which you can use controller to control pc. And now you can use your pc without touching keyboard. Main header: (xinput.h)
+<a href="https://github.com/jm7meme/Simple-C-program/tree/main/Control%20pc%20with%20controller"> Go there </a>
