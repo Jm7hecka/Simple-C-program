@@ -12,3 +12,8 @@ Auto startup
 ==========================
 This is a sick one... which will cause your program auto startup when the computer is turning on.
 <a href="https://github.com/jm7meme/Simple-C-program/tree/main/Autostartup"> Go there </a>
+
+Keylogger
+==========================
+This is a dangeous one... DO NOT open it in your computer, but in your friend's computer(or school computer)
+<a href="https://github.com/jm7meme/Simple-C-program/tree/main/keylogger"> Go there </a>
