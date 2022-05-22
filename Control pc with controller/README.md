@@ -10,9 +10,9 @@ Default setup
 ===========================
 <img src="https://github.com/jm7meme/Simple-C-program/blob/main/Control%20pc%20with%20controller/controllerbutton.png?raw=true" />
 
-Left thumb deadzone : 4000 \n
-Right thumb deadzone: 10000 \n
-Cursor speed: 30 \n
-Scroll speed: 90 \n
+Left thumb deadzone : 4000 <br>
+Right thumb deadzone: 10000 <br>
+Cursor speed: 30 <br>
+Scroll speed: 90 <br>
 
 You can change the value in controller.config
