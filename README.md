@@ -5,4 +5,5 @@ There are some really "simple" C project that is quite good for someone who has 
 
 Socket
 =========================
+This is a really simple C socket program that is just for notes. 
 <a href="https://github.com/jm7meme/Simple-C-program/tree/main/socket"> Go there </a>
